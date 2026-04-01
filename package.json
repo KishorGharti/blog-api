@@ -1,0 +1,26 @@
+{
+  "name": "blog-api",
+  "version": "1.0.0",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KishorGharti/blog-api.git"
+  },
+  "author": "Kishor Gharti",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KishorGharti/blog-api/issues"
+  },
+  "homepage": "https://github.com/KishorGharti/blog-api#readme",
+  "description": "",
+  "dependencies": {
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "mongoose": "^9.3.3",
+    "nodemon": "^3.1.14"
+  }
+}
