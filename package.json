@@ -18,9 +18,11 @@
   "homepage": "https://github.com/KishorGharti/blog-api#readme",
   "description": "",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "mongoose": "^9.3.3",
-    "nodemon": "^3.1.14"
+    "nodemon": "^3.1.14",
+    "validator": "^13.15.26"
   }
 }
