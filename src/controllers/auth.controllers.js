@@ -1,6 +1,7 @@
 import user from "../models/user.models.js";
 import validator from "validator";
 import bcrypt from 'bcrypt';
+import 'dotenv/config' 
 
 export const registerUser = async (req,res,next)=>{
     try{
