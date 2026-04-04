@@ -18,7 +18,7 @@ export const loginController = async (req,res,next) =>{
         }
 
         const token = jwt.sign(
-        { id: user._id, email: user.email },
+         { userId: emailChecker._id },
         process.env.JWT_SECRET,              
         { expiresIn: "1h" }                 
         );
