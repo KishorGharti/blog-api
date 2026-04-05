@@ -1,5 +1,6 @@
 import { registerUser } from "../controllers/auth.controllers.js";
 import { addBlogs, deleteblogs, getBlogs, updateBlogs } from "../controllers/blog.controllers.js";
+import { getLikes, toggleLike } from "../controllers/likeunlike.controllers.js";
 import { loginController } from "../controllers/login.controllers.js";
 import { authMiddlewares } from "../middlewares/auth.middlewares.js";
 import express from 'express'
@@ -11,5 +12,7 @@ router.post('/addblog',authMiddlewares,addBlogs);
 router.get('/getblogs/:blogsId',authMiddlewares,getBlogs);
 router.put('/updateblogs/:blogsId',authMiddlewares,updateBlogs);
 router.delete('/deleteblogs/:blogsId',authMiddlewares,deleteblogs);
+router.post('/likes/:blogsId',authMiddlewares,toggleLike);
+router.get('/like/:blogsId',getLikes);
 
 export default router;

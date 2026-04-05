@@ -1,4 +1,4 @@
-import mongoose from'mongoose'
+import mongoose from 'mongoose'
 
 const blogSchema = new mongoose.Schema({
     title:{
@@ -15,6 +15,14 @@ const blogSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'User',
         required:true
+    },
+
+    likes:{
+        type:[mongoose.Schema.Types.ObjectId], 
+        ref:'User',
+        default: [] 
     }
+
 },{timestamps:true});
+
 export default mongoose.model('Blog',blogSchema)
