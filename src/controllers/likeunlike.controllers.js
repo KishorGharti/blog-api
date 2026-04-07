@@ -15,7 +15,6 @@ export const toggleLike = async (req, res) => {
       return res.status(401).json({ message: "User not authenticated" });
     }
 
-    // Ensure likes is always an array
     if (!Array.isArray(blog.likes)) {
       blog.likes = [];
     }
