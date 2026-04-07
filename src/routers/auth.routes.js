@@ -10,6 +10,7 @@ const router = express.Router()
 router.post('/register', registerUser);
 router.post('/login',loginController);
 router.post('/addblog',authMiddlewares,addBlogs);
+router.get('/blogs', authMiddlewares, getBlogs);
 router.get('/getblogs/:blogsId',authMiddlewares,getBlogs);
 router.put('/updateblogs/:blogsId',authMiddlewares,updateBlogs);
 router.delete('/deleteblogs/:blogsId',authMiddlewares,deleteblogs);

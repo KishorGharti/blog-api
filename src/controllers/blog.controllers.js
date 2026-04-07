@@ -28,14 +28,29 @@ export const addBlogs = async (req, res) => {
 
 export const getBlogs = async (req, res, next) => {
   try {
-    const blog = await blogs.find({ user: req.user.userId });
-    res.status(200).json(blog);
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+
+    const skip = (page - 1) * limit;
+
+    const blog = await blogs.find({ user: req.user.userId })
+      .skip(skip)
+      .limit(limit)
+      .sort({ createdAt: -1 });
+
+    const total = await blogs.countDocuments({ user: req.user.userId });
+
+    res.status(200).json({
+      totalBlogs: total,
+      currentPage: page,
+      totalPages: Math.ceil(total / limit),
+      blogs: blog
+    });
+
   } catch (err) {
-     return res.status(500).json({message:'error while creating'})
+    return res.status(500).json({ message: 'error while fetching blogs' });
   }
 };
-
-
 export const updateBlogs = async (req, res, next) => {
   try {
     const { blogsId } = req.params;
