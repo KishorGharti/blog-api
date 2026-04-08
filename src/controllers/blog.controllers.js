@@ -1,4 +1,5 @@
 import blogs from '../models/blogs.models.js'; 
+import User from '../models/user.models.js';
 
 
 export const addBlogs = async (req, res) => {
@@ -25,32 +26,46 @@ export const addBlogs = async (req, res) => {
     res.status(500).json({ message: "error while creating" });
   }
 };
-
-export const getBlogs = async (req, res, next) => {
+export const getBlogs = async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
+    const { page = 1, limit = 10, search, user } = req.query;
+
+    const query = {};
+
+    if (search) {
+      query.title = { $regex: search, $options: "i" };
+    }
+    if (user) {
+      const foundUser = await User.findOne({ username: user });
+
+      if (!foundUser) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      query.user = foundUser._id;
+    }
 
     const skip = (page - 1) * limit;
 
-    const blog = await blogs.find({ user: req.user.userId })
+    const blogsData = await blogs.find(query)
       .skip(skip)
-      .limit(limit)
+      .limit(parseInt(limit))
       .sort({ createdAt: -1 });
 
-    const total = await blogs.countDocuments({ user: req.user.userId });
+    const total = await blogs.countDocuments(query);
 
-    res.status(200).json({
-      totalBlogs: total,
-      currentPage: page,
+    res.json({
+      total,
+      page: Number(page),
       totalPages: Math.ceil(total / limit),
-      blogs: blog
+      blogs: blogsData
     });
 
   } catch (err) {
-    return res.status(500).json({ message: 'error while fetching blogs' });
+    res.status(500).json({ message: "Error fetching blogs" });
   }
 };
+
 export const updateBlogs = async (req, res, next) => {
   try {
     const { blogsId } = req.params;

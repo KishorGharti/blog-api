@@ -5,7 +5,7 @@ import 'dotenv/config'
 
 export const registerUser = async (req,res,next)=>{
     try{
-        const {name,email,password} = req.body;
+        const {name,username,email,password} = req.body;
         //console.log(req.body);
         if (!validator.isEmail(email)){
             return res.status(400).json({message:'Invalid Email'})
@@ -22,6 +22,7 @@ export const registerUser = async (req,res,next)=>{
         
         const User = await user.create({
             name,
+            username,
             email,
             password:hashedPassword
         });
