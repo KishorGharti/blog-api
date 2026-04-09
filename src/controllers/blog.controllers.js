@@ -37,7 +37,7 @@ export const addBlogs = async (req, res) => {
   } catch (err) {
     console.log("ERROR:", err.message);
     console.log(err);
-    return res.status(500).json({ message: "error while creating" });
+    next(err)
   }
 };
 export const getBlogs = async (req, res) => {
@@ -76,7 +76,7 @@ export const getBlogs = async (req, res) => {
     });
 
   } catch (err) {
-    res.status(500).json({ message: "Error fetching blogs" });
+    next(err)
   }
 };
 
@@ -94,7 +94,7 @@ export const updateBlogs = async (req, res, next) => {
     const updatedblog= await blog.save();
     res.status(200).json(updatedblog);
   } catch (err) {
-    return res.status(500).json({message:'error while updating'})
+    next(err)
   }
 };
 
@@ -111,6 +111,6 @@ export const deleteblogs = async (req, res, next) => {
     await blog.deleteOne();
     res.status(200).json({ message: 'blog deleted' });
   } catch (err) {
-    return res.status(500).json({message:'error while deleting'})
+    next(err)
   }
 };

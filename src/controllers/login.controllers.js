@@ -34,7 +34,7 @@ export const loginController = async (req,res,next) =>{
         res.status(200).json({message:'Login successfull'})
     }
     catch(err){
-        return res.status(503).json({message:'Unable to login'})
+        next(err)
     }
 
 

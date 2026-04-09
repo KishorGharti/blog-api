@@ -19,7 +19,7 @@ export const commentController = async (req,res,next)=>{
         }
 
     catch(err){
-        return res.status(404).json({message:'Error while doing comment'})
+        next(err)
     }
 }
 
@@ -48,7 +48,7 @@ export const editComment = async (req, res, next) => {
     res.status(200).json({ blog });
 
   } catch (err) {
-    return res.status(500).json({ message: "Error while editing comment" });
+    next(err)
   }
 };
 
@@ -76,6 +76,6 @@ export const deleteComment = async (req, res) => {
   res.status(200).json({ message: "Comment deleted" });
 }
   catch(err){
-    return res.status(500).json({ message: "Error while deleting comment" });
+    next(err)
   }
 };

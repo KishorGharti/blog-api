@@ -31,6 +31,6 @@ export const registerUser = async (req,res,next)=>{
     
     }
     catch(err){
-        return res.status(503).json({message:'Error while register'})
+        next(err)
     }
 }
