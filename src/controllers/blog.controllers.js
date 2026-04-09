@@ -1,20 +1,33 @@
 import blogs from '../models/blogs.models.js'; 
 import User from '../models/user.models.js';
-
+import cloudinary from "../config/cloudinary.js";
+import fs from "fs";
 
 export const addBlogs = async (req, res) => {
   try {
-
     const { title, description } = req.body;
 
     if (!req.user || !req.user.userId) {
       return res.status(401).json({ message: "Unauthorized user" });
     }
 
+    let imageUrl = null;
+
+   
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path);
+
+      imageUrl = result.secure_url;
+
+    //Remove local file after upload
+      fs.unlinkSync(req.file.path);
+    }
+   
     const newBlogs = new blogs({
       title,
       description,
-      user: req.user.userId
+      user: req.user.userId,
+      image: imageUrl
     });
 
     const saveBlog = await newBlogs.save();
@@ -22,8 +35,9 @@ export const addBlogs = async (req, res) => {
     res.status(201).json(saveBlog);
 
   } catch (err) {
+    console.log("ERROR:", err.message);
     console.log(err);
-    res.status(500).json({ message: "error while creating" });
+    return res.status(500).json({ message: "error while creating" });
   }
 };
 export const getBlogs = async (req, res) => {
